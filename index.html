@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Dominio de Hermes: 10 Habilidades para Agentes de IA — Tutorial educativo interactivo por Rubén Sbarsky">
+<title>Dominio de Hermes — 10 Habilidades para Agentes de IA</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e1a;
+  --card:#0f172a;
+  --card2:#0d1424;
+  --border:#1e3a5f;
+  --cyan:#00d4ff;
+  --green:#22c55e;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --purple:#a855f7;
+  --txt:#e2e8f0;
+  --muted:#94a3b8;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--txt);
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  line-height:1.65;font-size:16px;
+  padding-top:64px;overflow-x:hidden;
+}
+img,svg{max-width:100%}
+::selection{background:rgba(0,212,255,.35)}
+
+/* ===== PROGRESO ===== */
+.progress-track{position:fixed;top:0;left:0;right:0;height:3px;background:#0f172a;z-index:130}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#00d4ff,#a855f7,#22c55e);box-shadow:0 0 10px rgba(0,212,255,.85);transition:width .12s linear}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;top:3px;left:0;right:0;height:60px;z-index:120;
+  background:rgba(10,14,26,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;padding:0 10px;
+}
+.nav-brand{
+  flex:0 0 auto;font-weight:800;font-size:13px;letter-spacing:1.5px;color:var(--cyan);
+  padding:6px 12px 6px 4px;border-right:1px solid var(--border);white-space:nowrap;
+}
+.nav-scroll{
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+  flex:1;padding:8px 2px;scroll-behavior:smooth;
+}
+.nav-scroll::-webkit-scrollbar{display:none}
+.nav-btn{
+  flex:0 0 auto;background:#0f172a;color:var(--muted);border:1px solid var(--border);
+  padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;
+  white-space:nowrap;transition:all .2s ease;font-family:inherit;
+}
+.nav-btn:hover{color:var(--cyan);border-color:var(--cyan);transform:translateY(-1px)}
+.nav-btn.active{
+  background:linear-gradient(135deg,rgba(0,212,255,.18),rgba(168,85,247,.18));
+  color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 14px rgba(0,212,255,.35)
+}
+
+/* ===== LAYOUT ===== */
+main{max-width:1180px;margin:0 auto;padding:20px 14px 70px}
+.section{display:none}
+.section.active{display:block;animation:fade .38s ease}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ===== HERO SVG ===== */
+.hero-svg-wrap{
+  margin:0 0 22px;
+  border-radius:14px;overflow:hidden;
+  border:1px solid var(--border);
+  background:#070b14;
+  box-shadow:0 0 45px rgba(0,212,255,.14),0 0 90px rgba(168,85,247,.08);
+}
+.hero-svg{display:block;width:100%;height:auto}
+
+/* ===== HOME ===== */
+.badge-top{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,rgba(0,212,255,.14),rgba(168,85,247,.14));
+  border:1px solid var(--border);color:var(--cyan);
+  padding:6px 16px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:16px;
+}
+.badge-top::before{content:"⬢";font-size:14px}
+h1.home-title{
+  font-size:clamp(1.9rem,5.5vw,3.2rem);line-height:1.12;font-weight:800;
+  background:linear-gradient(120deg,#00d4ff 0%,#a855f7 50%,#22c55e 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:12px;letter-spacing:-.5px;
+}
+.home-sub{font-size:clamp(1rem,2.6vw,1.3rem);color:var(--muted);font-weight:500;margin-bottom:18px}
+.home-desc{color:#cbd5e1;max-width:820px;margin-bottom:22px;font-size:1.02rem}
+.quote-box{
+  border-left:4px solid var(--cyan);background:linear-gradient(90deg,rgba(0,212,255,.09),transparent);
+  padding:16px 20px;border-radius:0 12px 12px 0;margin:22px 0;
+  font-style:italic;color:#e2e8f0;font-size:1.05rem;
+}
+.quote-box cite{display:block;margin-top:8px;font-style:normal;font-size:.82rem;color:var(--muted);letter-spacing:1px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:24px 0}
+.metric{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:16px 14px;text-align:center;transition:.25s;
+}
+.metric:hover{border-color:var(--cyan);box-shadow:0 0 22px rgba(0,212,255,.18);transform:translateY(-3px)}
+.metric .num{font-size:1.7rem;font-weight:800;color:var(--cyan);line-height:1.1}
+.metric .lbl{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;margin-top:6px}
+.date-strip{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:6px;
+}
+.date-chip{
+  background:var(--card2);border:1px solid var(--border);border-radius:999px;
+  padding:7px 16px;font-size:.82rem;color:var(--muted);font-family:'Consolas',monospace;
+}
+.date-chip b{color:var(--cyan);font-weight:700}
+
+/* ===== HEADINGS ===== */
+.sec-head{margin:0 0 20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.sec-head .kicker{
+  font-size:.72rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--purple);
+  font-weight:700;display:block;margin-bottom:8px;
+}
+.sec-head h2{font-size:clamp(1.4rem,3.6vw,2rem);font-weight:800;color:#f1f5f9;line-height:1.2}
+.sec-head p{color:var(--muted);margin-top:8px;font-size:.96rem}
+h3{font-size:1.22rem;font-weight:700;color:var(--cyan);margin:26px 0 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h3 .tag{
+  font-size:.66rem;letter-spacing:1.5px;background:rgba(0,212,255,.12);border:1px solid var(--border);
+  color:var(--cyan);padding:3px 9px;border-radius:999px;font-weight:700;
+}
+h4{font-size:1.02rem;font-weight:700;color:#e2e8f0;margin:18px 0 8px}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:20px 18px;margin-bottom:18px;
+}
+.card.tight{padding:15px 15px}
+.card-accent{border-left:4px solid var(--cyan)}
+.card-accent.p{border-left-color:var(--purple)}
+.card-accent.g{border-left-color:var(--green)}
+.card-accent.a{border-left-color:var(--amber)}
+.grid{display:grid;gap:14px}
+.grid.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+/* ===== CALLOUTS ===== */
+.callout{
+  border-radius:10px;padding:14px 16px;margin:16px 0;
+  border-left:4px solid var(--cyan);background:rgba(0,212,255,.07);
+  font-size:.95rem;
+}
+.callout .ct{
+  display:block;font-size:.7rem;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:6px;color:var(--cyan);
+}
+.callout.info{border-left-color:var(--cyan);background:rgba(0,212,255,.07)}
+.callout.info .ct{color:var(--cyan)}
+.callout.ejemplo{border-left-color:var(--green);background:rgba(34,197,94,.07)}
+.callout.ejemplo .ct{color:var(--green)}
+.callout.warn{border-left-color:var(--amber);background:rgba(245,158,11,.08)}
+.callout.warn .ct{color:var(--amber)}
+.callout.error{border-left-color:var(--red);background:rgba(239,68,68,.08)}
+.callout.error .ct{color:var(--red)}
+.callout.motivo{
+  border-left-color:var(--purple);background:rgba(168,85,247,.08);
+  font-family:'Consolas','Courier New',monospace;font-size:.87rem;line-height:1.6;
+}
+.callout.motivo .ct{color:var(--purple)}
+
+/* ===== LISTAS ===== */
+ul.clean,ol.clean{list-style:none;padding-left:0;margin:10px 0}
+ul.clean li{position:relative;padding-left:24px;margin-bottom:9px;color:#cbd5e1}
+ul.clean li::before{content:"▸";position:absolute;left:4px;color:var(--cyan);font-weight:700}
+ul.check li::before{content:"✅";left:0;font-size:.9rem}
+ul.cross li::before{content:"❌";left:0;font-size:.9rem}
+ul.check li,ul.cross li{padding-left:28px}
+
+/* ===== PASOS ===== */
+.steps{list-style:none;counter-reset:st;padding:0;margin:14px 0}
+.steps li{
+  counter-increment:st;position:relative;padding:13px 14px 13px 56px;margin-bottom:10px;
+  background:var(--card2);border:1px solid var(--border);border-radius:10px;color:#cbd5e1;
+}
+.steps li::before{
+  content:counter(st);position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:28px;height:28px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,212,255,.2),rgba(168,85,247,.2));
+  border:1px solid var(--cyan);color:var(--cyan);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;
+}
+.steps li b{color:#f1f5f9}
+
+/* ===== TABLAS ===== */
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:10px;border:1px solid var(--border);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:520px;font-size:.9rem}
+thead{background:linear-gradient(135deg,rgba(0,212,255,.12),rgba(168,85,247,.12))}
+th{
+  text-align:left;padding:12px 13px;color:var(--cyan);font-weight:700;
+  font-size:.76rem;letter-spacing:1.2px;text-transform:uppercase;border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+td{padding:11px 13px;border-bottom:1px solid rgba(30,58,95,.6);color:#cbd5e1;vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(0,212,255,.045)}
+td b{color:#f1f5f9}
+
+/* ===== CÓDIGO ===== */
+code{
+  font-family:'Consolas','Courier New',monospace;background:rgba(0,212,255,.1);
+  color:#7dd3fc;padding:2px 6px;border-radius:5px;font-size:.87em;
+}
+pre{
+  background:#070b14;border:1px solid var(--border);border-radius:10px;
+  padding:15px 16px;overflow-x:auto;font-family:'Consolas','Courier New',monospace;
+  font-size:.85rem;color:#a5f3fc;line-height:1.6;margin:12px 0;
+}
+pre .cm{color:#64748b}
+
+/* ===== ACORDEÓN ===== */
+.acc{background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.acc-btn{
+  width:100%;background:transparent;border:none;color:#e2e8f0;font-family:inherit;
+  font-size:.97rem;font-weight:600;text-align:left;padding:14px 16px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;transition:.2s;
+}
+.acc-btn:hover{background:rgba(0,212,255,.06);color:var(--cyan)}
+.acc-btn .arw{transition:transform .28s;color:var(--cyan);flex:0 0 auto;font-size:.85rem}
+.acc.open .acc-btn{color:var(--cyan)}
+.acc.open .acc-btn .arw{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .34s ease}
+.acc-inner{padding:0 16px 16px;color:#cbd5e1;font-size:.95rem}
+.acc.open .acc-body{max-height:1400px}
+
+/* ===== PROMPTS ===== */
+.prompt-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:16px;margin-bottom:14px;
+}
+.prompt-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.prompt-head h4{margin:0;color:var(--cyan);font-size:1rem}
+.copy-btn{
+  background:rgba(0,212,255,.1);border:1px solid var(--border);color:var(--cyan);
+  font-family:inherit;font-size:.76rem;font-weight:700;letter-spacing:1px;
+  padding:6px 14px;border-radius:999px;cursor:pointer;transition:.2s;white-space:nowrap;
+}
+.copy-btn:hover{background:rgba(0,212,255,.22);border-color:var(--cyan);box-shadow:0 0 12px rgba(0,212,255,.3)}
+.prompt-text{
+  background:#070b14;border:1px solid rgba(30,58,95,.7);border-radius:9px;
+  padding:13px 15px;font-family:'Consolas','Courier New',monospace;font-size:.85rem;
+  color:#a5f3fc;font-style:italic;line-height:1.65;white-space:pre-wrap;word-break:break-word;
+}
+
+/* ===== DIAGRAMA ===== */
+.flow-diagram{
+  background:#070b14;border:1px solid var(--border);border-radius:12px;
+  padding:18px 12px;margin:18px 0;overflow-x:auto;
+}
+.flow-diagram pre{background:none;border:none;padding:0;color:#7dd3fc;font-size:.8rem;text-align:center}
+
+/* ===== CRÉDITOS ===== */
+.credits-card{
+  background:linear-gradient(160deg,var(--card),var(--card2));
+  border:1px solid var(--border);border-radius:14px;padding:26px 20px;text-align:center;
+}
+.credits-card .cname{font-size:1.5rem;font-weight:800;color:var(--cyan);margin:14px 0 6px;letter-spacing:.5px}
+.credits-card .crole{color:var(--muted);font-size:.9rem;letter-spacing:2px;text-transform:uppercase}
+.credits-card .cdate{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:18px;
+}
+.credits-card .latin{
+  margin-top:22px;font-style:italic;color:var(--amber);letter-spacing:1.5px;font-size:.95rem;
+}
+
+/* ===== BACK TO TOP ===== */
+#backTop{
+  position:fixed;right:16px;bottom:18px;width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,212,255,.22),rgba(168,85,247,.22));
+  border:1px solid var(--cyan);color:var(--cyan);font-size:20px;font-weight:800;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:.3s;z-index:115;backdrop-filter:blur(8px);
+}
+#backTop.show{opacity:1;pointer-events:auto}
+#backTop:hover{box-shadow:0 0 22px rgba(0,212,255,.55);transform:translateY(-3px)}
+
+/* ===== FOOTER ===== */
+footer{
+  border-top:1px solid var(--border);background:#070b14;
+  padding:26px 16px;text-align:center;color:var(--muted);font-size:.86rem;line-height:2;
+}
+footer .flatin{margin-top:8px;color:var(--amber);font-style:italic;letter-spacing:1.2px}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:640px){
+  body{font-size:15px;padding-top:60px}
+  .nav-brand{display:none}
+  main{padding:14px 10px 60px}
+  .navbar{height:56px;padding:0 8px}
+  .nav-btn{font-size:12px;padding:6px 11px}
+  .card{padding:16px 13px}
+  .steps li{padding:12px 12px 12px 50px}
+  .steps li::before{left:11px;width:25px;height:25px;font-size:.75rem}
+  h3{font-size:1.1rem}
+  .metric .num{font-size:1.45rem}
+  #backTop{width:44px;height:44px;right:12px;bottom:12px;font-size:18px}
+  table{min-width:460px;font-size:.83rem}
+  th,td{padding:9px 10px}
+}
+@media (max-width:380px){
+  .nav-btn{font-size:11px;padding:6px 9px}
+  .hero-svg-wrap{border-radius:10px}
+}
+
+/* ===== ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.05ms !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PROGRESO ============ -->
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- ============ NAVBAR ============ -->
+<nav class="navbar" aria-label="Navegación principal">
+  <div class="nav-brand">⬢ HERMES</div>
+  <div class="nav-scroll" id="navScroll">
+    <button class="nav-btn active" data-target="inicio">Inicio</button>
+    <button class="nav-btn" data-target="introduccion">Introducción</button>
+    <button class="nav-btn" data-target="cap1">Cap. 1 · Tiempo Real</button>
+    <button class="nav-btn" data-target="cap2">Cap. 2 · Redacción</button>
+    <button class="nav-btn" data-target="cap3">Cap. 3 · Entregables</button>
+    <button class="nav-btn" data-target="cap4">Cap. 4 · Multi-Agente</button>
+    <button class="nav-btn" data-target="cap5">Cap. 5 · Ingeniería</button>
+    <button class="nav-btn" data-target="tabla">Tabla General</button>
+    <button class="nav-btn" data-target="prompts">Prompts</button>
+    <button class="nav-btn" data-target="final">Final</button>
+    <button class="nav-btn" data-target="fuentes">Fuentes</button>
+    <button class="nav-btn" data-target="creditos">Créditos</button>
+  </div>
+</nav>
+
+<!-- ============ SVG MAESTRO (DEFINICIÓN ÚNICA) ============ -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden"
+     aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="hBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#070b14">
+        <animate attributeName="stop-color" values="#070b14;#0e1b38;#120a26;#070b14" dur="11s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#0a0e1a">
+        <animate attributeName="stop-color" values="#0a0e1a;#14284d;#0a0e1a" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#0d1424">
+        <animate attributeName="stop-color" values="#0d1424;#241033;#0d1424" dur="9.5s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <radialGradient id="hVig" cx="50%" cy="50%" r="72%">
+      <stop offset="42%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.82"/>
+    </radialGradient>
+
+    <radialGradient id="hCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.85"/>
+      <stop offset="45%" stop-color="#00d4ff" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="hHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.70"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="hHaloG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+
+    <pattern id="hGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0 L0 0 L0 40" fill="none" stroke="#1e3a5f" stroke-width="0.6"/>
+      <circle cx="0" cy="0" r="1" fill="#00d4ff" opacity="0.4"/>
+    </pattern>
+
+    <filter id="hGlow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="hGlowBig" x="-180%" y="-180%" width="460%" height="460%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <symbol id="hermesHero" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet">
+
+    <!-- ================= FONDO ================= -->
+    <rect x="0" y="0" width="800" height="450" fill="url(#hBg)"/>
+    <rect x="0" y="0" width="800" height="450" fill="url(#hGrid)" opacity="0.45">
+      <animate attributeName="opacity" values="0.16;0.58;0.16" dur="6.5s" repeatCount="indefinite"/>
+    </rect>
+    <rect x="0" y="0" width="800" height="450" fill="url(#hVig)"/>
+    <rect x="6" y="6" width="788" height="438" rx="16" fill="none" stroke="#1e3a5f" stroke-width="1.5">
+      <animate attributeName="stroke-opacity" values="0.30;0.95;0.30" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#a855f7;#1e3a5f" dur="9s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- ================= ANILLOS ORBITALES ================= -->
+    <g transform="translate(400,255)">
+      <circle r="160" fill="none" stroke="#00d4ff" stroke-width="1" stroke-dasharray="3 15" opacity="0.45">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="28s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-dasharray" values="3 15;22 9;3 15" dur="7s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="125" fill="none" stroke="#a855f7" stroke-width="1.2" stroke-dasharray="26 14" opacity="0.40">
+        <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="19s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.14;0.72;0.14" dur="5.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="93" fill="none" stroke="#22c55e" stroke-width="1" stroke-dasharray="2 7" opacity="0.45">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="12s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="62" fill="none" stroke="#f59e0b" stroke-width="1.1" stroke-dasharray="11 7" opacity="0.52">
+        <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="7.5s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-dasharray" values="11 7;3 3;11 7" dur="4.2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <!-- Sondas orbitales -->
+    <circle r="4" fill="#00d4ff" filter="url(#hGlow)" opacity="0.95">
+      <animateMotion dur="13s" repeatCount="indefinite"
+        path="M 400 95 A 160 160 0 1 0 400 415 A 160 160 0 1 0 400 95"/>
+    </circle>
+    <circle r="3.4" fill="#a855f7" filter="url(#hGlow)" opacity="0.9">
+      <animateMotion dur="9.5s" repeatCount="indefinite"
+        path="M 400 380 A 125 125 0 1 1 400 130 A 125 125 0 1 1 400 380"/>
+    </circle>
+    <circle r="2.8" fill="#22c55e" filter="url(#hGlow)" opacity="0.9">
+      <animateMotion dur="6.8s" repeatCount="indefinite"
+        path="M 400 162 A 93 93 0 1 0 400 348 A 93 93 0 1 0 400 162"/>
+    </circle>
+
+    <!-- ================= RUTAS DE FLUJO ================= -->
+    <g fill="none" stroke-width="1.6" stroke-linecap="round">
+      <path id="hP1" d="M 92 140 C 190 140 270 208 350 236" stroke="#00d4ff" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="3.5s" repeatCount="indefinite"/>
+      </path>
+      <path id="hP2" d="M 92 210 C 190 210 270 238 350 245" stroke="#a855f7" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="4.1s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="4.1s" repeatCount="indefinite"/>
+      </path>
+      <path id="hP3" d="M 92 280 C 190 280 270 272 350 262" stroke="#22c55e" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="3.2s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="3.2s" repeatCount="indefinite"/>
+      </path>
+      <path id="hP4" d="M 92 350 C 190 350 270 300 350 272" stroke="#f59e0b" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="4.6s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="4.6s" repeatCount="indefinite"/>
+      </path>
+
+      <path id="hP5" d="M 450 236 C 530 208 610 140 708 140" stroke="#00d4ff" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="3.8s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="3.8s" repeatCount="indefinite"/>
+      </path>
+      <path id="hP6" d="M 450 245 C 530 238 610 210 708 210" stroke="#a855f7" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="4.4s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="4.4s" repeatCount="indefinite"/>
+      </path>
+      <path id="hP7" d="M 450 262 C 530 272 610 280 708 280" stroke="#22c55e" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="3.6s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="3.6s" repeatCount="indefinite"/>
+      </path>
+      <path id="hP8" d="M 450 272 C 530 300 610 350 708 350" stroke="#f59e0b" stroke-dasharray="8 10" opacity="0.55">
+        <animate attributeName="stroke-dashoffset" values="0;-180" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="stroke-opacity" values="0.18;0.9;0.18" dur="5s" repeatCount="indefinite"/>
+      </path>
+
+      <path id="hGhost" d="M 92 210 C 200 210 300 255 400 255 C 500 255 600 210 708 210"
+            stroke="none" fill="none"/>
+    </g>
+
+    <!-- ================= PARTÍCULAS VIAJERAS ================= -->
+    <circle r="3.4" fill="#00d4ff" filter="url(#hGlow)">
+      <animateMotion dur="2.8s" begin="0s" repeatCount="indefinite"><mpath xlink:href="#hP1" href="#hP1"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6" fill="#7dd3fc" filter="url(#hGlow)">
+      <animateMotion dur="3.6s" begin="1.4s" repeatCount="indefinite"><mpath xlink:href="#hP1" href="#hP1"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.6s" begin="1.4s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle r="3.4" fill="#a855f7" filter="url(#hGlow)">
+      <animateMotion dur="3.4s" begin="0.6s" repeatCount="indefinite"><mpath xlink:href="#hP2" href="#hP2"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.4s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.4" fill="#c084fc" filter="url(#hGlow)">
+      <animateMotion dur="4.8s" begin="2.2s" repeatCount="indefinite"><mpath xlink:href="#hP2" href="#hP2"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4.8s" begin="2.2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle r="3.2" fill="#22c55e" filter="url(#hGlow)">
+      <animateMotion dur="3.1s" begin="0.3s" repeatCount="indefinite"><mpath xlink:href="#hP3" href="#hP3"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.1s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.4" fill="#86efac" filter="url(#hGlow)">
+      <animateMotion dur="4.3s" begin="1.9s" repeatCount="indefinite"><mpath xlink:href="#hP3" href="#hP3"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4.3s" begin="1.9s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle r="3.2" fill="#f59e0b" filter="url(#hGlow)">
+      <animateMotion dur="3.9s" begin="0.9s" repeatCount="indefinite"><mpath xlink:href="#hP4" href="#hP4"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.9s" begin="0.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6" fill="#fcd34d" filter="url(#hGlow)">
+      <animateMotion dur="5.2s" begin="2.6s" repeatCount="indefinite"><mpath xlink:href="#hP4" href="#hP4"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="5.2s" begin="2.6s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle r="3.4" fill="#00d4ff" filter="url(#hGlow)">
+      <animateMotion dur="3.0s" begin="0.5s" repeatCount="indefinite"><mpath xlink:href="#hP5" href="#hP5"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6" fill="#7dd3fc" filter="url(#hGlow)">
+      <animateMotion dur="4.5s" begin="2.1s" repeatCount="indefinite"><mpath xlink:href="#hP5" href="#hP5"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4.5s" begin="2.1s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle r="3.4" fill="#a855f7" filter="url(#hGlow)">
+      <animateMotion dur="3.7s" begin="0.2s" repeatCount="indefinite"><mpath xlink:href="#hP6" href="#hP6"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.7s" begin="0.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.4" fill="#c084fc" filter="url(#hGlow)">
+      <animateMotion dur="5.5s" begin="3s" repeatCount="indefinite"><mpath xlink:href="#hP6" href="#hP6"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="5.5s" begin="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle r="3.2" fill="#22c55e" filter="url(#hGlow)">
+      <animateMotion dur="2.9s" begin="1.1s" repeatCount="indefinite"><mpath xlink:href="#hP7" href="#hP7"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="2.9s" begin="1.1s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.4" fill="#86efac" filter="url(#hGlow)">
+      <animateMotion dur="4.1s" begin="2.8s" repeatCount="indefinite"><mpath xlink:href="#hP7" href="#hP7"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4.1s" begin="2.8s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle r="3.2" fill="#f59e0b" filter="url(#hGlow)">
+      <animateMotion dur="3.3s" begin="0.8s" repeatCount="indefinite"><mpath xlink:href="#hP8" href="#hP8"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.3s" begin="0.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6" fill="#fcd34d" filter="url(#hGlow)">
+      <animateMotion dur="4.9s" begin="2.4s" repeatCount="indefinite"><mpath xlink:href="#hP8" href="#hP8"/></animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="4.9s" begin="2.4s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- ================= GHOST ELEMENTS ================= -->
+    <g filter="url(#hGlowBig)" opacity="0">
+      <animateMotion dur="9s" begin="1s" repeatCount="indefinite"><mpath xlink:href="#hGhost" href="#hGhost"/></animateMotion>
+      <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.08;0.82;1" dur="9s" begin="1s" repeatCount="indefinite"/>
+      <polygon points="0,-12 10.4,-6 10.4,6 0,12 -10.4,6 -10.4,-6"
+               fill="#a855f7" fill-opacity="0.35" stroke="#a855f7" stroke-width="1.8"/>
+    </g>
+    <g filter="url(#hGlowBig)" opacity="0">
+      <animateMotion dur="9s" begin="5.5s" repeatCount="indefinite"><mpath xlink:href="#hGhost" href="#hGhost"/></animateMotion>
+      <animate attributeName="opacity" values="0;0.9;0.9;0" keyTimes="0;0.08;0.82;1" dur="9s" begin="5.5s" repeatCount="indefinite"/>
+      <polygon points="0,-12 10.4,-6 10.4,6 0,12 -10.4,6 -10.4,-6"
+               fill="#00d4ff" fill-opacity="0.35" stroke="#00d4ff" stroke-width="1.8"/>
+    </g>
+
+    <!-- ================= NÚCLEO ================= -->
+    <g transform="translate(400,255)">
+      <circle r="58" fill="url(#hCore)">
+        <animate attributeName="r" values="50;66;50" dur="3.2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;1;0.5" dur="3.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="74" fill="none" stroke="#00d4ff" stroke-width="1" opacity="0.5" stroke-dasharray="4 8">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="10s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="68;82;68" dur="3.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="90" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.35" stroke-dasharray="2 10">
+        <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="15s" repeatCount="indefinite"/>
+      </circle>
+      <polygon points="0,-32 27.7,-16 27.7,16 0,32 -27.7,16 -27.7,-16"
+               fill="#0f172a" stroke="#00d4ff" stroke-width="2" filter="url(#hGlow)">
+        <animate attributeName="stroke" values="#00d4ff;#a855f7;#22c55e;#f59e0b;#00d4ff" dur="12s" repeatCount="indefinite"/>
+      </polygon>
+      <text x="0" y="7" text-anchor="middle"
+            font-family="'Segoe UI',system-ui,sans-serif" font-size="19" font-weight="800"
+            letter-spacing="1" fill="#00d4ff">
+        AI
+        <animate attributeName="fill" values="#00d4ff;#a855f7;#22c55e;#f59e0b;#00d4ff" dur="12s" repeatCount="indefinite"/>
+      </text>
+    </g>
+
+    <!-- Explosión radial del núcleo -->
+    <g transform="translate(400,255)" stroke-linecap="round" fill="none">
+      <g>
+        <animateTransform attributeName="transform" type="scale" values="0.4;2.3" dur="3.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.95;0" dur="3.4s" repeatCount="indefinite"/>
+        <line x1="0" y1="0" x2="0" y2="-42" stroke="#00d4ff" stroke-width="2"/>
+        <line x1="0" y1="0" x2="30" y2="-30" stroke="#a855f7" stroke-width="2"/>
+        <line x1="0" y1="0" x2="42" y2="0" stroke="#22c55e" stroke-width="2"/>
+        <line x1="0" y1="0" x2="30" y2="30" stroke="#f59e0b" stroke-width="2"/>
+        <line x1="0" y1="0" x2="0" y2="42" stroke="#ef4444" stroke-width="2"/>
+        <line x1="0" y1="0" x2="-30" y2="30" stroke="#00d4ff" stroke-width="2"/>
+        <line x1="0" y1="0" x2="-42" y2="0" stroke="#a855f7" stroke-width="2"/>
+        <line x1="0" y1="0" x2="-30" y2="-30" stroke="#22c55e" stroke-width="2"/>
+      </g>
+    </g>
+
+    <!-- ================= NODOS DE ENTRADA ================= -->
+    <!-- YT -->
+    <g transform="translate(70,140)">
+      <circle r="26" fill="url(#hHalo)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="3.8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="3.8s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="3.1s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#00d4ff" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="2.4s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="800" fill="#00d4ff">YT</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">YOUTUBE</text>
+    </g>
+    <!-- Reddit -->
+    <g transform="translate(70,210)">
+      <circle r="26" fill="url(#hHalo)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="4.3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="4.3s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="3.6s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#a855f7" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="2.9s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="800" fill="#a855f7">RD</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">REDDIT</text>
+    </g>
+    <!-- X -->
+    <g transform="translate(70,280)">
+      <circle r="26" fill="url(#hHaloG)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="3.4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="3.4s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.8s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#22c55e" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="800" fill="#22c55e">X</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">X / TWITTER</text>
+    </g>
+    <!-- GitHub -->
+    <g transform="translate(70,350)">
+      <circle r="26" fill="url(#hHalo)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="4.7s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="4.7s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="3.9s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#f59e0b" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="3.1s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="800" fill="#f59e0b">GH</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">GITHUB</text>
+    </g>
+
+    <!-- ================= NODOS DE SALIDA ================= -->
+    <g transform="translate(730,140)">
+      <circle r="26" fill="url(#hHalo)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="3.3s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#00d4ff" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="2.6s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="800" fill="#00d4ff">PDF</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">REPORTE</text>
+    </g>
+    <g transform="translate(730,210)">
+      <circle r="26" fill="url(#hHalo)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="4.1s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="4.1s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="3.7s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#a855f7" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="3.3s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" font-weight="800" fill="#a855f7">WEB</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">INTERFAZ</text>
+    </g>
+    <g transform="translate(730,280)">
+      <circle r="26" fill="url(#hHaloG)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="3.9s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="3.9s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="2.9s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#22c55e" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" font-weight="800" fill="#22c55e">CODE</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">SOFTWARE</text>
+    </g>
+    <g transform="translate(730,350)">
+      <circle r="26" fill="url(#hHalo)" opacity="0.5">
+        <animate attributeName="r" values="22;33;22" dur="4.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.18;0.7;0.18" dur="4.5s" repeatCount="indefinite"/>
+      </circle>
+      <g>
+        <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="3.4s" repeatCount="indefinite"/>
+        <circle r="19" fill="#0f172a" stroke="#f59e0b" stroke-width="1.8" filter="url(#hGlow)">
+          <animate attributeName="stroke-opacity" values="0.55;1;0.55" dur="2.8s" repeatCount="indefinite"/>
+        </circle>
+        <text y="5" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" font-weight="800" fill="#f59e0b">UX</text>
+      </g>
+      <text y="34" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9.5" fill="#64748b" letter-spacing="1">UI / UX</text>
+    </g>
+
+    <!-- ================= BADGE SUPERIOR IZQUIERDA ================= -->
+    <g transform="translate(38,42)">
+      <rect x="-8" y="-15" width="118" height="28" rx="14" fill="rgba(0,212,255,0.10)" stroke="#1e3a5f" stroke-width="1">
+        <animate attributeName="stroke" values="#1e3a5f;#00d4ff;#1e3a5f" dur="6s" repeatCount="indefinite"/>
+      </rect>
+      <circle cx="4" cy="0" r="3.5" fill="#22c55e">
+        <animate attributeName="opacity" values="1;0.2;1" dur="1.7s" repeatCount="indefinite"/>
+      </circle>
+      <text x="14" y="4" font-family="monospace" font-size="10.5" font-weight="700" fill="#00d4ff" letter-spacing="1.6">SKILL FILES</text>
+    </g>
+
+    <!-- ================= LIVE ================= -->
+    <g transform="translate(700,42)">
+      <circle r="5" fill="#ef4444">
+        <animate attributeName="opacity" values="1;0.12;1" dur="1.4s" repeatCount="indefinite"/>
+        <animate attributeName="r" values="4;6.5;4" dur="1.4s" repeatCount="indefinite"/>
+      </circle>
+      <text x="14" y="4.5" font-family="monospace" font-size="11" font-weight="700" fill="#ef4444" letter-spacing="2.4">LIVE</text>
+    </g>
+
+    <!-- ================= TÍTULOS ================= -->
+    <text x="400" y="48" text-anchor="middle"
+          font-family="'Segoe UI',system-ui,sans-serif" font-size="31" font-weight="800"
+          letter-spacing="2.5" fill="#00d4ff" filter="url(#hGlow)">
+      DOMINIO DE HERMES
+      <animate attributeName="fill" values="#00d4ff;#a855f7;#22c55e;#f59e0b;#00d4ff" dur="10s" repeatCount="indefinite"/>
+    </text>
+
+    <text x="400" y="74" text-anchor="middle"
+          font-family="'Segoe UI',system-ui,sans-serif" font-size="12.5" font-weight="600"
+          letter-spacing="4" fill="#94a3b8">
+      10 HABILIDADES PARA AGENTES DE IA
+      <animate attributeName="opacity" values="0.45;1;0.45" dur="4.2s" repeatCount="indefinite"/>
+    </text>
+
+    <!-- Etiqueta de estado alternante -->
+    <g font-family="monospace" font-size="10.5" letter-spacing="2.6" text-anchor="middle" fill="#64748b">
+      <text x="400" y="99" opacity="0">
+        <animate attributeName="opacity" values="0;1;1;0;0;0" keyTimes="0;0.05;0.30;0.35;0.99;1" dur="12s" repeatCount="indefinite"/>
+        AGENT REACH · DEFTO · HUMANIZER
+      </text>
+      <text x="400" y="99" opacity="0">
+        <animate attributeName="opacity" values="0;0;0;1;1;0;0" keyTimes="0;0.34;0.36;0.40;0.63;0.68;1" dur="12s" repeatCount="indefinite"/>
+        CAVEMAN · PDF CREATOR · OH MY HERMES
+      </text>
+      <text x="400" y="99" opacity="0">
+        <animate attributeName="opacity" values="0;0;0;1;1;0" keyTimes="0;0.67;0.69;0.73;0.96;1" dur="12s" repeatCount="indefinite"/>
+        ADDY OSMANI · CYBERSECURITY · CODEBASE MCP
+      </text>
+    </g>
+
+    <!-- ================= FLASH CLÍMAX ================= -->
+    <g>
+      <rect x="0" y="0" width="800" height="450" fill="#00d4ff" opacity="0">
+        <animate attributeName="opacity" values="0;0;0.10;0;0" keyTimes="0;0.62;0.66;0.72;1" dur="7s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+    <text x="400" y="405" text-anchor="middle"
+          font-family="'Segoe UI',system-ui,sans-serif" font-size="15" font-weight="800"
+          letter-spacing="3" fill="#00d4ff" filter="url(#hGlowBig)" opacity="0">
+      ¡10 SKILLS ACTIVADAS!
+      <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.60;0.64;0.72;0.76;1" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="font-size" values="13;13;18;18;13" keyTimes="0;0.60;0.66;0.72;1" dur="7s" repeatCount="indefinite"/>
+    </text>
+
+    <!-- ================= FIRMA ================= -->
+    <text x="400" y="431" text-anchor="middle"
+          font-family="'Segoe UI',system-ui,sans-serif" font-size="9.5"
+          letter-spacing="1.6" fill="#475569">
+      RUBÉN SBARSKY · 16/09/2026 · 11:25:16
+      <animate attributeName="opacity" values="0.25;0.85;0.25" dur="5.2s" repeatCount="indefinite"/>
+    </text>
+
+  </symbol>
+</svg>
+
+<!-- ============ MAIN ============ -->
+<main>
+
+  <!-- ============================= HOME ============================= -->
+  <section id="inicio" class="section active">
+    <div class="hero-svg-wrap">
+      <svg class="hero-svg" viewBox="0 0 800 450" role="img"
+           aria-label="Animación: diez habilidades fluyen desde fuentes de datos en vivo hacia el núcleo del agente Hermes y salen transformadas en entregables profesionales">
+        <use href="#hermesHero" xlink:href="#hermesHero"></use>
+      </svg>
+    </div>
+
+    <span class="badge-top">Tutorial Interactivo · Skill Files</span>
+    <h1 class="home-title">Dominio de Hermes</h1>
+    <p class="home-sub">10 Habilidades para Agentes de IA · De conversador robótico a equipo profesional completo</p>
+    <p class="home-desc">
+      Un <b>agente de IA</b> como Hermes es un asistente inteligente capaz de razonar y ejecutar tareas.
+      Si lo utilizas únicamente mediante la interfaz de chat estándar, solo estás aprovechando una pequeña
+      fracción de su capacidad. Este tutorial te enseña a instalar, comprender y dominar diez
+      <b>archivos de habilidad (<i>skill files</i>)</b> que transforman radicalmente su rendimiento:
+      acceso a datos en tiempo real, redacción 100 % humana, ahorro de más del 65 % en <b>tokens</b>,
+      documentos impecables, equipos multi-agente, ingeniería senior, ciberseguridad y diseño de interfaces.
+    </p>
+
+    <div class="quote-box">
+      “Si no puedes explicarlo de forma sencilla, es que no lo entiendes lo suficientemente bien.”
+      <cite>— Principio rector de este tutorial</cite>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><div class="num">10</div><div class="lbl">Habilidades</div></div>
+      <div class="metric"><div class="num">5</div><div class="lbl">Capítulos</div></div>
+      <div class="metric"><div class="num">+65 %</div><div class="lbl">Ahorro de tokens</div></div>
+      <div class="metric"><div class="num">10</div><div class="lbl">Prompts listos</div></div>
+    </div>
+
+    <div class="date-strip">
+      <span class="date-chip">📅 FECHA: <b>16/09/2026</b></span>
+      <span class="date-chip">🕐 HORA: <b>11:25:16</b></span>
+      <span class="date-chip">👨‍💻 CRÉDITOS: <b>Rubén Sbarsky</b></span>
+    </div>
+
+    <div class="callout info" style="margin-top:22px">
+      <span class="ct">Cómo usar este tutorial</span>
+      Utiliza la barra de navegación superior para desplazarte entre secciones. Cada capítulo contiene
+      los conceptos, los pasos de implementación, los motivos técnicos, los ejemplos, los errores frecuentes
+      y las tablas comparativas del material original. En la pestaña <b>Prompts</b> encontrarás los
+      enunciados exactos listos para copiar.
+    </div>
+  </section>
+
+  <!-- ============================= INTRODUCCIÓN ============================= -->
+  <section id="introduccion" class="section">
+    <div class="sec-head">
+      <span class="kicker">Punto de partida</span>
+      <h2>Introducción: ¿Qué es este tema y para qué sirve?</h2>
+      <p>Antes de instalar cualquier habilidad, es imprescindible entender qué es un agente de IA, qué es un archivo de habilidad y por qué dominarlo cambia por completo los resultados que obtienes.</p>
+    </div>
+
+    <h3>1. ¿Qué es Hermes Agent y qué es un archivo de habilidad (<i>skill file</i>)? <span class="tag">Concepto</span></h3>
+    <div class="card card-accent">
+      <p>
+        Un <b>agente de IA</b> como Hermes es un asistente inteligente capaz de razonar y ejecutar tareas.
+        Sin embargo, si utilizas Hermes únicamente mediante la interfaz de chat estándar, solo estás
+        aprovechando una pequeña fracción de su capacidad.
+      </p>
+      <p style="margin-top:12px">
+        Para comprender qué es un <b>archivo de habilidad (<i>skill file</i>)</b>, imagina a un chef
+        profesional muy talentoso al que contratas y dejas en una cocina vacía ordenándole:
+        <i>“cocina algo bueno”</i>. Probablemente cometerá errores, improvisará y tardará mucho tiempo
+        en descifrar el procedimiento. En cambio, si le entregas una <b>hoja de receta detallada</b>,
+        el chef sabrá exactamente qué ingredientes utilizar, las cantidades, el orden de preparación
+        y las técnicas de cocción adecuadas.
+      </p>
+      <p style="margin-top:12px">
+        En el mundo de la inteligencia artificial, el <b>archivo de habilidad</b> es la receta.
+        Es un conjunto de instrucciones precisas y estructuradas que el agente guarda en su memoria
+        para ejecutar tareas complejas de manera impecable cada vez que se lo pidas.
+      </p>
+    </div>
+
+    <div class="callout ejemplo">
+      <span class="ct">Ejemplo / Analogía</span>
+      <b>El chef y la receta.</b> Un chef talentoso en una cocina vacía improvisa y falla.
+      El mismo chef con una receta detallada produce un plato perfecto, repetible y rápido.
+      El agente de IA es el chef; el <i>skill file</i> es la receta.
+    </div>
+
+    <h3>2. ¿Para qué sirve y por qué es importante aprenderlo? <span class="tag">Valor</span></h3>
+    <div class="card card-accent p">
+      <p>
+        Aprender a instalar y dominar estas habilidades transforma a tu agente de IA de un simple
+        conversador robótico a un <b>equipo profesional completo</b>. Con las habilidades correctas,
+        Hermes asume roles de:
+      </p>
+      <ul class="clean" style="margin-top:10px">
+        <li>Investigador de mercado en tiempo real.</li>
+        <li>Redactor que escribe con tono 100 % humano.</li>
+        <li>Diseñador de interfaces y creador de documentos.</li>
+        <li>Programador senior y auditor de ciberseguridad.</li>
+      </ul>
+    </div>
+
+    <div class="card card-accent a">
+      <h4 style="margin-top:0">¿Por qué es crucial dominarlo hoy?</h4>
+      <ul class="clean">
+        <li><b>Ahorro masivo de dinero y tiempo:</b> reduce el consumo de <b>tokens</b> (la unidad de cobro y procesamiento de la IA) hasta en más de un 65 %.</li>
+        <li><b>Eliminación del trabajo robótico:</b> destruye las respuestas genéricas y vacías típicas de la IA.</li>
+        <li><b>Calidad profesional:</b> evita que el agente entregue código con errores, archivos rotos o información desactualizada.</li>
+      </ul>
+    </div>
+
+    <h3>3. Situaciones reales de uso <span class="tag">Aplicación</span></h3>
+    <div class="grid g2">
+      <div class="card tight card-accent">
+        <h4 style="margin-top:0">🔍 Investigación de competencia</h4>
+        <p>Analizar lo que opinan los usuarios reales en foros o redes sociales antes de lanzar un producto.</p>
+      </div>
+      <div class="card tight card-accent g">
+        <h4 style="margin-top:0">✍️ Redacción de contenidos</h4>
+        <p>Crear correos, guiones para YouTube o publicaciones sin que parezcan generados por una máquina.</p>
+      </div>
+      <div class="card tight card-accent p">
+        <h4 style="margin-top:0">🛡️ Desarrollo de software seguro</h4>
+        <p>Crear aplicaciones web completas manteniendo el código organizado y protegido contra ataques informáticos.</p>
+      </div>
+      <div class="card tight card-accent a">
+        <h4 style="margin-top:0">📄 Formatos listos para clientes</h4>
+        <p>Generar reportes técnicos o guías en PDF con un diseño limpio y profesional.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CAPÍTULO 1 ============================= -->
+  <section id="cap1" class="section">
+    <div class="sec-head">
+      <span class="kicker">Capítulo 1</span>
+      <h2>Fundamentos y Gestión de Información en Tiempo Real</h2>
+      <p>Los agentes de IA estándar sufren de una gran limitación: solo pueden razonar sobre la información que tienen a su alcance. Si les pides analizar un video reciente o un foro, suelen dar respuestas desactualizadas o inventar datos.</p>
+    </div>
+
+    <div class="callout warn">
+      <span class="ct">Concepto básico del capítulo</span>
+      Los agentes de IA estándar sufren de una gran limitación: <b>solo pueden razonar sobre la información
+      que tienen a su alcance</b>. Si les pides analizar un video reciente o un foro, suelen dar respuestas
+      desactualizadas o inventar datos. Las dos habilidades de este capítulo resuelven exactamente ese problema.
+    </div>
+
+    <!-- HABILIDAD 1 -->
+    <h3>Habilidad 1: Agent Reach <span class="tag">Búsqueda y datos en tiempo real</span></h3>
+
+    <div class="card card-accent">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Permite a Hermes buscar, leer y digerir información directamente desde plataformas vivas en Internet como <b>YouTube, Reddit, X (Twitter) y GitHub</b>.</p>
+    </div>
+
+    <h4>2. Pasos de implementación accionables</h4>
+    <ol class="steps">
+      <li><b>Paso 1 (Identificar la fuente):</b> copia el enlace directo de la plataforma que deseas analizar (por ejemplo, un video de YouTube o un hilo de Reddit).</li>
+      <li><b>Paso 2 (Cargar la habilidad):</b> asegúrate de tener activa la habilidad <code>Agent Reach</code> en Hermes.</li>
+      <li><b>Paso 3 (Indicar el objetivo):</b> pide al agente que extraiga los puntos clave o cree una estructura basada en el contenido en vivo.</li>
+    </ol>
+
+    <div class="callout motivo">
+      <span class="ct">Motivo del procedimiento</span>
+      Sin esta habilidad, la IA no puede acceder al contenido interno de videos o publicaciones sociales
+      y devolverá un error o una respuesta inventada.
+    </div>
+
+    <h4>3. Ejemplos prácticos</h4>
+    <div class="grid g2">
+      <div class="card tight card-accent g">
+        <h4 style="margin-top:0">Analogía cotidiana</h4>
+        <p>Es como darle a un investigador un pase VIP para ingresar a una biblioteca privada, en lugar de hacerle adivinar lo que dicen los libros cerrados.</p>
+      </div>
+      <div class="card tight card-accent p">
+        <h4 style="margin-top:0">Caso práctico</h4>
+        <p>Un creador de contenido quiere estructurar un guion de ventas (VSL). En lugar de redactarlo desde cero, le proporciona a Hermes el enlace de un video exitoso en YouTube mediante <i>Agent Reach</i>; el agente analiza la estructura y genera un nuevo guion adaptado.</p>
+      </div>
+    </div>
+
+    <div class="callout error">
+      <span class="ct">Incorrecto</span>
+      “Resúmeme lo que la gente dice en Reddit sobre mi marca” (sin darle acceso a la red ni la habilidad activa).
+    </div>
+    <div class="callout ejemplo">
+      <span class="ct">Correcto</span>
+      “Utiliza Agent Reach para analizar las opiniones recientes en este enlace de Reddit [URL] y extrae las 3 principales quejas de los usuarios”.
+    </div>
+
+    <h4>4. Errores frecuentes y cómo evitarlos</h4>
+    <div class="card tight card-accent a">
+      <ul class="clean" style="margin:0">
+        <li><b>Error:</b> proporcionar enlaces rotos o privados.</li>
+        <li><b>Solución:</b> comprueba siempre que el enlace sea accesible de manera pública antes de entregárselo al agente.</li>
+      </ul>
+    </div>
+
+    <!-- HABILIDAD 2 -->
+    <h3>Habilidad 2: Defto <span class="tag">Limpieza web y ahorro de tokens</span></h3>
+
+    <div class="card card-accent g">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Toma páginas web sobrecargadas y las convierte en un archivo <b>Markdown limpio</b>. Elimina anuncios, menús de navegación, barras laterales y avisos de <i>cookies</i> antes de que Hermes lea el texto.</p>
+    </div>
+
+    <h4>2. Pasos de implementación accionables</h4>
+    <ol class="steps">
+      <li><b>Paso 1 (Seleccionar la URL):</b> copia la dirección web de un artículo o blog informativo.</li>
+      <li><b>Paso 2 (Procesar con Defto):</b> ejecuta el comando o prompt solicitando a Hermes que procese la página a través de <code>Defto</code>.</li>
+      <li><b>Paso 3 (Consumir el texto):</b> solicita la síntesis o comparación del material ya filtrado.</li>
+    </ol>
+
+    <div class="callout motivo">
+      <span class="ct">Motivo del procedimiento</span>
+      Si el agente lee todo el código basura de una página web, gastará miles de tokens en anuncios
+      irrelevantes, incrementando el costo de uso y saturando su memoria.
+    </div>
+
+    <h4>3. Tabla comparativa: Lectura Estándar vs. Lectura con Defto</h4>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Característica</th>
+            <th>Lectura Web Estándar</th>
+            <th>Lectura con Defto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Contenido leído</b></td>
+            <td>Anuncios, menús, pie de página, texto</td>
+            <td>Solo el texto principal del artículo</td>
+          </tr>
+          <tr>
+            <td><b>Consumo de tokens</b></td>
+            <td>Muy alto (gasto innecesario)</td>
+            <td>Mínimo y optimizado</td>
+          </tr>
+          <tr>
+            <td><b>Riesgo de distracción</b></td>
+            <td>Alto (puede confundir anuncios con datos)</td>
+            <td>Nulo (solo procesa información limpia)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>4. Resumen del Capítulo 1</h4>
+    <div class="card card-accent">
+      <ul class="clean" style="margin:0">
+        <li><b>Agent Reach</b> conecta a Hermes con la red en tiempo real (YouTube, Reddit, X, GitHub).</li>
+        <li><b>Defto</b> limpia el ruido web para ahorrar dinero y enfocar al agente en lo relevante.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================= CAPÍTULO 2 ============================= -->
+  <section id="cap2" class="section">
+    <div class="sec-head">
+      <span class="kicker">Capítulo 2</span>
+      <h2>Optimización de Comunicación y Redacción Humana</h2>
+      <p>La IA no entrenada tiende a escribir con patrones robóticos, frases vacías y un tono exageradamente servicial o genérico (conocido como <i>AI slop</i>).</p>
+    </div>
+
+    <div class="callout warn">
+      <span class="ct">Concepto básico del capítulo</span>
+      La IA no entrenada tiende a escribir con patrones robóticos, frases vacías y un tono exageradamente
+      servicial o genérico (conocido como <b><i>AI slop</i></b>).
+    </div>
+
+    <!-- HABILIDAD 3 -->
+    <h3>Habilidad 3: Humanizer <span class="tag">Eliminación de la prosa robótica</span></h3>
+
+    <div class="card card-accent g">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Analiza y elimina automáticamente los patrones, clichés y muletillas típicas de la inteligencia artificial, logrando que el texto suene escrito por una persona real.</p>
+    </div>
+
+    <h4>2. Pasos de implementación accionables</h4>
+    <ol class="steps">
+      <li><b>Paso 1 (Borrador inicial):</b> genera el texto base (correo, publicación, guion) con Hermes.</li>
+      <li><b>Paso 2 (Aplicar Humanizer):</b> solicita al agente que reescriba el borrador utilizando la habilidad <code>Humanizer</code>.</li>
+      <li><b>Paso 3 (Revisión final):</b> lee el texto resultante para comprobar la fluidez y naturalidad.</li>
+    </ol>
+
+    <div class="callout motivo">
+      <span class="ct">Motivo del procedimiento</span>
+      Evita la frustración de tener que pedirle a la IA una y otra vez que “suene menos robótica”
+      o “más natural”.
+    </div>
+
+    <h4>3. Ejemplos de transformación</h4>
+    <div class="callout error">
+      <span class="ct">Texto robótico sin Humanizer</span>
+      “En el dinámico ecosistema digital de hoy en día, es imperativo e indispensable optimizar nuestras
+      sinergias para alcanzar el éxito sostenido...”
+    </div>
+    <div class="callout ejemplo">
+      <span class="ct">Texto corregido con Humanizer</span>
+      “Si quieres mejorar los resultados de tu equipo hoy, necesitas simplificar la forma en que trabajan juntos...”
+    </div>
+
+    <!-- HABILIDAD 4 -->
+    <h3>Habilidad 4: Caveman <span class="tag">Compresión y ahorro extremo de tokens</span></h3>
+
+    <div class="card card-accent a">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Simplifica y comprime las respuestas del agente al mínimo necesario, yendo directo al grano sin rodeos conversacionales ni saludos innecesarios.</p>
+    </div>
+
+    <h4>2. Pasos de implementación accionables</h4>
+    <ol class="steps">
+      <li><b>Paso 1 (Activar el modo):</b> carga la habilidad <code>Caveman</code> antes de iniciar sesiones largas de trabajo o programación.</li>
+      <li><b>Paso 2 (Enviar consulta):</b> realiza tus preguntas de forma habitual.</li>
+      <li><b>Paso 3 (Recibir respuesta directa):</b> observa cómo el agente responde con la información exacta requerida.</li>
+    </ol>
+
+    <div class="callout motivo">
+      <span class="ct">Motivo del procedimiento</span>
+      Elimina el relleno conversacional, ahorra más del 65 % de tokens y preserva espacio en la ventana
+      de contexto durante sesiones extensas.
+    </div>
+
+    <h4>3. Lista de beneficios de Caveman</h4>
+    <div class="card card-accent g">
+      <ul class="clean check" style="margin:0">
+        <li><b>Reducción de costos:</b> disminuye el gasto en tokens en más de un 65 %.</li>
+        <li><b>Mayor velocidad:</b> las conversaciones se leen y procesan mucho más rápido.</li>
+        <li><b>Conservación de memoria:</b> mantiene libre la memoria del agente durante sesiones largas de código o investigación.</li>
+      </ul>
+    </div>
+
+    <h4>4. Resumen del Capítulo 2</h4>
+    <div class="card card-accent p">
+      <ul class="clean" style="margin:0">
+        <li><b>Humanizer</b> elimina el lenguaje artificial y robótico.</li>
+        <li><b>Caveman</b> ahorra dinero y tiempo al eliminar el relleno conversacional y comprimir el texto.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================= CAPÍTULO 3 ============================= -->
+  <section id="cap3" class="section">
+    <div class="sec-head">
+      <span class="kicker">Capítulo 3</span>
+      <h2>Creación de Entregables Profesionales</h2>
+      <p>Convertir información en documentos listos para entregar a clientes o alumnos, sin errores de formato.</p>
+    </div>
+
+    <h3>Habilidad 5: PDF Creator <span class="tag">Documentos impecables y estructurados</span></h3>
+
+    <div class="card card-accent">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Convierte archivos Markdown, artículos o reportes en documentos <b>PDF limpios, bien formateados y con elementos visuales</b>, listos para entregar a clientes o alumnos.</p>
+    </div>
+
+    <h4>2. Pasos de implementación accionables</h4>
+    <ol class="steps">
+      <li><b>Paso 1 (Preparar la información):</b> organiza el contenido en texto plano o Markdown dentro de Hermes.</li>
+      <li><b>Paso 2 (Solicitar el PDF):</b> pide a Hermes que procese la información mediante <code>PDF Creator</code>.</li>
+      <li><b>Paso 3 (Descarga y verificación):</b> revisa el PDF generado para confirmar que las tablas, tipografías y márgenes estén alineados.</li>
+    </ol>
+
+    <div class="callout motivo">
+      <span class="ct">Motivo del procedimiento</span>
+      Las herramientas predeterminadas de los navegadores al exportar a PDF suelen romper las tablas,
+      desaparecer fuentes o incluir encabezados y pies de página no deseados.
+    </div>
+
+    <h4>3. Caso práctico</h4>
+    <div class="card card-accent p">
+      <p>
+        Un estudiante o profesional quiere aprender un concepto complejo (como un tema de programación
+        o finanzas). Le solicita a Hermes que genere una guía de estudio en PDF; el agente utiliza
+        <code>PDF Creator</code> para entregar un documento visualmente ordenado y fácil de digerir.
+      </p>
+    </div>
+
+    <h4>4. Resumen del Capítulo 3</h4>
+    <div class="card card-accent g">
+      <ul class="clean" style="margin:0">
+        <li><b>PDF Creator</b> garantiza que los documentos exportados mantengan un diseño profesional, funcional y sin errores de formato.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================= CAPÍTULO 4 ============================= -->
+  <section id="cap4" class="section">
+    <div class="sec-head">
+      <span class="kicker">Capítulo 4</span>
+      <h2>Trabajo en Equipo y Arquitectura Multi-Agente</h2>
+      <p>Dividir el trabajo por especialidades para evitar el colapso de un solo agente sobrecargado.</p>
+    </div>
+
+    <h3>Habilidad 6: Oh My Hermes <span class="tag">Orquestación de equipos de IA</span></h3>
+
+    <div class="card card-accent p">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Permite que varios agentes de IA colaboren entre sí dentro de un mismo proyecto complejo, dividiendo el trabajo por especialidades.</p>
+    </div>
+
+    <h4>2. Estructura del equipo de agentes</h4>
+    <div class="flow-diagram">
+<pre>
+               [ AGENTE PRINCIPAL ]
+                        │
+      ┌─────────────────┼─────────────────┐
+      ▼                 ▼                 ▼
+[Investigador]    [Planificador]     [Ejecutor]
+      │                 │                 │
+      └─────────────────┼─────────────────┘
+                        ▼
+                  [Verificador]
+</pre>
+    </div>
+
+    <div class="grid g2">
+      <div class="card tight card-accent">
+        <h4 style="margin-top:0">🔎 Agente Investigador</h4>
+        <p>Reúne la información y los requisitos.</p>
+      </div>
+      <div class="card tight card-accent p">
+        <h4 style="margin-top:0">🗂️ Agente Planificador</h4>
+        <p>Estructura los pasos a seguir.</p>
+      </div>
+      <div class="card tight card-accent g">
+        <h4 style="margin-top:0">⚙️ Agente Ejecutor</h4>
+        <p>Escribe el código o crea el contenido.</p>
+      </div>
+      <div class="card tight card-accent a">
+        <h4 style="margin-top:0">✅ Agente Verificador</h4>
+        <p>Revisa independientemente que el resultado no tenga errores.</p>
+      </div>
+    </div>
+
+    <h4>3. Pasos de implementación accionables</h4>
+    <ol class="steps">
+      <li><b>Paso 1 (Definir el proyecto):</b> describe el objetivo completo (ej. desarrollar una aplicación web).</li>
+      <li><b>Paso 2 (Asignar roles):</b> activa <code>Oh My Hermes</code> para repartir las tareas entre los sub-agentes.</li>
+      <li><b>Paso 3 (Supervisar la verificación):</b> deja que el agente verificador valide el trabajo antes de darlo por terminado.</li>
+    </ol>
+
+    <div class="callout motivo">
+      <span class="ct">Motivo del procedimiento</span>
+      Cuando un solo agente intenta investigar, planificar, programar y revisar todo a la vez dentro
+      de la misma memoria, colapsa, comete errores y no verifica su propio trabajo.
+    </div>
+
+    <h4>4. Resumen del Capítulo 4</h4>
+    <div class="card card-accent">
+      <ul class="clean" style="margin:0">
+        <li><b>Oh My Hermes</b> evita los fallos en tareas grandes al repartir la carga en un equipo organizado de agentes especializados.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================= CAPÍTULO 5 ============================= -->
+  <section id="cap5" class="section">
+    <div class="sec-head">
+      <span class="kicker">Capítulo 5</span>
+      <h2>Ingeniería de Software Avanzada y Ciberseguridad</h2>
+      <p>Disciplina senior, auditoría de seguridad, memoria de proyecto y pulido de interfaz.</p>
+    </div>
+
+    <!-- HABILIDAD 7 -->
+    <h3>Habilidad 7: Addy Osmani's Agent Skills <span class="tag">Metodología Senior</span></h3>
+
+    <div class="card card-accent">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Inculca en Hermes las mejores prácticas de un equipo de ingeniería de software senior: planificar antes de programar, construir en pasos pequeños, realizar pruebas y revisar el código antes de lanzar.</p>
+    </div>
+
+    <h4>2. Pasos de trabajo Senior vs. Pasos de un Becario (sin la habilidad)</h4>
+    <div class="flow-diagram">
+<pre>
+Proceso sin la habilidad (Becario descontrolado):
+[Recibir idea] ──> [Escribir código masivo de golpe] ──> [Errores y fallos masivos]
+
+Proceso con la habilidad (Ingeniero Senior):
+[Planificar] ──> [Construir paso a paso] ──> [Probar] ──> [Revisar] ──> [Lanzar]
+</pre>
+    </div>
+
+    <div class="callout info">
+      <span class="ct">INFO</span>
+      La diferencia clave no está en la cantidad de código escrito, sino en el <b>orden del proceso</b>:
+      planificar primero, construir por partes y verificar antes de publicar.
+    </div>
+
+    <!-- HABILIDAD 8 -->
+    <h3>Habilidad 8: Anthropic Cybersecurity Skills <span class="tag">Protección y auditoría</span></h3>
+
+    <div class="card card-accent" style="border-left-color:var(--red)">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Incorpora <b>guías y protocolos de ciberseguridad</b> al agente para revisar código, inspeccionar archivos sospechosos, detectar vulnerabilidades en la nube y proteger aplicaciones públicas.</p>
+    </div>
+
+    <h4>2. Caso de uso real</h4>
+    <div class="card card-accent p">
+      <p>
+        Un desarrollador independiente construye una aplicación web pero no tiene presupuesto para
+        contratar a un auditor de ciberseguridad. Activa esta habilidad para que Hermes analice el código
+        en busca de agujeros de seguridad antes de poner la aplicación en marcha.
+      </p>
+    </div>
+
+    <!-- HABILIDAD 9 -->
+    <h3>Habilidad 9: Codebase Memory MCP <span class="tag">Mapeo de proyectos</span></h3>
+
+    <div class="card card-accent">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Crea un mapa completo de la estructura de un proyecto de código. Permite a Hermes recordar dónde está cada archivo y función sin tener que releer todo el proyecto en cada mensaje.</p>
+    </div>
+
+    <h4>2. Beneficios clave</h4>
+    <div class="grid g2">
+      <div class="card tight card-accent g">
+        <h4 style="margin-top:0">⏱️ Ahorro masivo de tiempo</h4>
+        <p>La IA ubica los archivos al instante.</p>
+      </div>
+      <div class="card tight card-accent a">
+        <h4 style="margin-top:0">🪙 Ahorro de tokens</h4>
+        <p>No necesita procesar miles de líneas de código repetidamente.</p>
+      </div>
+    </div>
+
+    <!-- HABILIDAD 10 -->
+    <h3>Habilidad 10: Make Interfaces Feel Better <span class="tag">Pulido UI/UX</span></h3>
+
+    <div class="card card-accent p">
+      <h4 style="margin-top:0">1. ¿Qué hace?</h4>
+      <p>Revisa y mejora el aspecto visual y la experiencia de usuario (<i>front-end</i>) de aplicaciones y sitios web.</p>
+    </div>
+
+    <h4>2. Elementos que optimiza</h4>
+    <div class="card card-accent g">
+      <ul class="clean" style="margin:0">
+        <li>Tipografía y espaciado de texto.</li>
+        <li>Sombras, botones e iconos.</li>
+        <li>Animaciones y respuestas al pasar el ratón (<i>hover</i>) o hacer clic.</li>
+      </ul>
+    </div>
+
+    <div class="callout motivo">
+      <span class="ct">Motivo del procedimiento</span>
+      Las aplicaciones generadas por IA suelen ser funcionales pero lucen descuidadas y poco
+      profesionales, lo que resta credibilidad ante los usuarios.
+    </div>
+
+    <h4>3. Resumen del Capítulo 5</h4>
+    <div class="card card-accent">
+      <ul class="clean" style="margin:0">
+        <li><b>Addy Osmani's Skills</b> aportan disciplina de programación senior.</li>
+        <li><b>Anthropic Cybersecurity</b> audita y protege el software.</li>
+        <li><b>Codebase Memory MCP</b> mapea el proyecto para ahorrar memoria.</li>
+        <li><b>Make Interfaces Feel Better</b> transforma diseños descuidados en interfaces profesionales y atractivas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================= TABLA GENERAL ============================= -->
+  <section id="tabla" class="section">
+    <div class="sec-head">
+      <span class="kicker">Resumen ejecutivo</span>
+      <h2>Tablas Comparativas y Esquemas de Resumen</h2>
+      <p>Las diez habilidades en una sola vista: función, momento de uso y beneficio clave.</p>
+    </div>
+
+    <h3>Tabla General de las 10 Habilidades de Hermes</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre de la Habilidad</th>
+            <th>Función Principal</th>
+            <th>Cuándo Utilizarla</th>
+            <th>Beneficio Clave</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>1</b></td>
+            <td><b>Agent Reach</b></td>
+            <td>Búsqueda y lectura de redes/web en vivo</td>
+            <td>Investigar marcas, tendencias y YouTube</td>
+            <td>Acceso a datos en tiempo real</td>
+          </tr>
+          <tr>
+            <td><b>2</b></td>
+            <td><b>Defto</b></td>
+            <td>Limpieza de páginas web a Markdown</td>
+            <td>Leer artículos de blogs sin anuncios</td>
+            <td>Ahorro de tokens y lectura limpia</td>
+          </tr>
+          <tr>
+            <td><b>3</b></td>
+            <td><b>Humanizer</b></td>
+            <td>Elimina tono robótico (<i>AI slop</i>)</td>
+            <td>Redactar correos, guiones y publicaciones</td>
+            <td>Texto 100 % natural y humano</td>
+          </tr>
+          <tr>
+            <td><b>4</b></td>
+            <td><b>Caveman</b></td>
+            <td>Comprime la comunicación de la IA</td>
+            <td>Sesiones largas de trabajo o código</td>
+            <td>Ahorra &gt;65 % de tokens y tiempo</td>
+          </tr>
+          <tr>
+            <td><b>5</b></td>
+            <td><b>PDF Creator</b></td>
+            <td>Genera PDFs limpios y diseñados</td>
+            <td>Crear reportes o guías de estudio</td>
+            <td>Formato profesional sin errores</td>
+          </tr>
+          <tr>
+            <td><b>6</b></td>
+            <td><b>Oh My Hermes</b></td>
+            <td>Orquestación multi-agente</td>
+            <td>Proyectos grandes de software</td>
+            <td>Evita colapsos por sobrecarga</td>
+          </tr>
+          <tr>
+            <td><b>7</b></td>
+            <td><b>Addy Osmani's Skills</b></td>
+            <td>Flujos de programación senior</td>
+            <td>Desarrollar código estructurado</td>
+            <td>Código sin errores ni prisas</td>
+          </tr>
+          <tr>
+            <td><b>8</b></td>
+            <td><b>Cybersecurity Skills</b></td>
+            <td>Playbooks de seguridad informática</td>
+            <td>Proteger aplicaciones web públicas</td>
+            <td>Prevención de vulnerabilidades</td>
+          </tr>
+          <tr>
+            <td><b>9</b></td>
+            <td><b>Codebase Memory MCP</b></td>
+            <td>Mapa estructural del repositorio</td>
+            <td>Trabajar en proyectos de código grandes</td>
+            <td>Recuerda la estructura sin releer</td>
+          </tr>
+          <tr>
+            <td><b>10</b></td>
+            <td><b>Make Interfaces Feel Better</b></td>
+            <td>Optimización UI/UX (<i>front-end</i>)</td>
+            <td>Diseñar o pulir páginas web y apps</td>
+            <td>Diseños atractivos y profesionales</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Lista de comprobación para la implementación exitosa</h3>
+    <div class="card card-accent g">
+      <ul class="clean check" style="margin:0">
+        <li>¿Identifiqué claramente el problema antes de pedir la tarea?</li>
+        <li>¿Seleccioné la habilidad adecuada para el trabajo (ej. Defto para webs, Caveman para ahorrar tokens)?</li>
+        <li>¿Verifiqué que la salida no contenga patrones robóticos usando Humanizer si es un texto público?</li>
+        <li>En proyectos de código, ¿activé la memoria del repositorio y las reglas de ciberseguridad?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================= PROMPTS ============================= -->
+  <section id="prompts" class="section">
+    <div class="sec-head">
+      <span class="kicker">Guía práctica</span>
+      <h2>Guía Completa de Prompts Recomendados</h2>
+      <p>A continuación se presentan los prompts exactos que puedes copiar y utilizar para activar y aprovechar cada habilidad.</p>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>1 · Agent Reach</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Utiliza la habilidad Agent Reach para analizar la información disponible en este enlace [Insertar URL de YouTube, Reddit, X o GitHub]. Extrae los puntos clave y resume las opiniones principales.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>2 · Defto</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Procesa el contenido de esta página web [Insertar URL] utilizando Defto. Elimina anuncios, menús y barras laterales, y entrégame el texto limpio en formato Markdown.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>3 · Humanizer</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Toma el siguiente texto y aplícale la habilidad Humanizer. Elimina cualquier cliché de IA, lenguaje robótico o frases vacías para que suene 100 % natural y humano: [Insertar texto].</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>4 · Caveman</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Activa el modo Caveman para nuestras siguientes interacciones. Mantén las respuestas extremadamente directas, sin rellenos ni cortesías innecesarias, enfocándote en la máxima brevedad y ahorro de tokens.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>5 · PDF Creator</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Convierte el siguiente documento en un PDF profesional utilizando PDF Creator. Asegúrate de que las tablas, la tipografía y los márgenes queden perfectamente alineados y limpios: [Insertar texto/Markdown].</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>6 · Oh My Hermes</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Vamos a iniciar un proyecto complejo. Utiliza Oh My Hermes para dividir el trabajo entre un agente investigador, un planificador, un ejecutor y un verificador para llevar a cabo la siguiente tarea: [Describir proyecto].</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>7 · Addy Osmani's Agent Skills</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Aplica la metodología de ingeniería de Addy Osmani para desarrollar este módulo. Antes de escribir código, presenta el plan detallado, divide el trabajo en pasos pequeños y verifica cada función.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>8 · Anthropic Cybersecurity Skills</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Ejecuta una auditoría de ciberseguridad sobre el siguiente código/configuración utilizando las guías de Anthropic Cybersecurity. Identifica posibles vulnerabilidades y sugiere las correcciones necesarias.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>9 · Codebase Memory MCP</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Genera un mapa de estructura del proyecto utilizando Codebase Memory MCP para que recuerdes dónde se ubican los archivos clave sin necesidad de releer todo el código en cada turno.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-head">
+        <h4>10 · Make Interfaces Feel Better</h4>
+        <button class="copy-btn" type="button">COPIAR</button>
+      </div>
+      <div class="prompt-text">Revisa la interfaz de usuario de este componente e implementa la habilidad Make Interfaces Feel Better. Optimiza el espaciado, la tipografía, los colores, las sombras y las animaciones de interacción.</div>
+    </div>
+  </section>
+
+  <!-- ============================= FINAL ============================= -->
+  <section id="final" class="section">
+    <div class="sec-head">
+      <span class="kicker">Cierre</span>
+      <h2>Final del Tutorial</h2>
+      <p>Resumen, conceptos clave, errores que nunca deben cometerse, recomendaciones, ejercicios y glosario.</p>
+    </div>
+
+    <h3>1. Resumen de todo lo aprendido</h3>
+    <div class="card card-accent">
+      <p>
+        En este tutorial hemos aprendido que un agente de IA como Hermes alcanza su verdadero potencial
+        cuando se le proporcionan <b>archivos de habilidades (<i>skill files</i>)</b>. Hemos cubierto desde
+        la búsqueda de datos en vivo con <i>Agent Reach</i>, la reducción de costos con <i>Defto</i> y
+        <i>Caveman</i>, la mejora de textos con <i>Humanizer</i>, la exportación en <i>PDF</i>, hasta la
+        creación de equipos multi-agente, desarrollo de software senior, ciberseguridad y diseño de interfaces.
+      </p>
+    </div>
+
+    <h3>2. Lista de conceptos clave</h3>
+    <div class="grid g2">
+      <div class="card tight card-accent">
+        <h4 style="margin-top:0">Skill File (Archivo de habilidad)</h4>
+        <p>Conjunto de instrucciones estructuradas que enseñan a la IA a ejecutar una tarea específica.</p>
+      </div>
+      <div class="card tight card-accent p">
+        <h4 style="margin-top:0">Tokens</h4>
+        <p>Unidades de texto mediante las cuales la IA procesa y cobra la información.</p>
+      </div>
+      <div class="card tight card-accent a">
+        <h4 style="margin-top:0">AI Slop</h4>
+        <p>Término que refiere al contenido genérico, robótico y de baja calidad generado por la IA.</p>
+      </div>
+      <div class="card tight card-accent g">
+        <h4 style="margin-top:0">Multi-agente</h4>
+        <p>Sistema donde varias IAs colaboran asumiendo roles diferentes en un solo proyecto.</p>
+      </div>
+      <div class="card tight card-accent">
+        <h4 style="margin-top:0">MCP (Model Context Protocol / Memoria)</h4>
+        <p>Sistema que permite mapear la estructura de un proyecto para no saturar la memoria de la IA.</p>
+      </div>
+    </div>
+
+    <h3>3. Errores que nunca deben cometerse</h3>
+    <div class="card card-accent" style="border-left-color:var(--red)">
+      <ol class="clean" style="margin:0;list-style:none;padding-left:0">
+        <li style="position:relative;padding-left:30px;margin-bottom:10px">❌ <b>Lanzar al agente a programar o redactar sin darle una habilidad o receta clara.</b></li>
+        <li style="position:relative;padding-left:30px;margin-bottom:10px">❌ <b>Permitir que la IA lea páginas web completas con anuncios</b>, gastando tokens inútilmente.</li>
+        <li style="position:relative;padding-left:30px;margin-bottom:10px">❌ <b>Publicar textos generados por IA sin pasar por un filtro humanizador.</b></li>
+        <li style="position:relative;padding-left:30px;margin-bottom:10px">❌ <b>Pedirle a un solo agente que investigue, planifique, programe y revise proyectos gigantes por sí solo.</b></li>
+        <li style="position:relative;padding-left:30px">❌ <b>Lanzar software al público sin haber auditado la ciberseguridad del código.</b></li>
+      </ol>
+    </div>
+
+    <h3>4. Recomendaciones para seguir aprendiendo</h3>
+    <div class="card card-accent g">
+      <ul class="clean" style="margin:0">
+        <li>Comienza instalando <b>1 o 2 habilidades básicas</b> (como <i>Defto</i> y <i>Caveman</i>) para notar de inmediato el ahorro de tiempo y dinero.</li>
+        <li>Experimenta con <i>Agent Reach</i> para realizar investigaciones de mercado sobre tus temas de interés.</li>
+        <li>Crea un flujo de trabajo diario donde combines varias habilidades para resolver tareas reales.</li>
+      </ul>
+    </div>
+
+    <h3>5. Ejercicios prácticos con soluciones explicadas</h3>
+
+    <div class="acc">
+      <button class="acc-btn" type="button">
+        <span>Ejercicio 1 · Limpieza de investigación</span>
+        <span class="arw">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <p><b>Tarea:</b> tienes un artículo de blog largo con mucha publicidad y quieres sintetizarlo sin gastar demasiado dinero.</p>
+          <p style="margin-top:10px"><b>Solución explicada:</b> utiliza la habilidad <b>Defto</b> proporcionando la URL. Defto eliminará los anuncios y menús, entregándote un texto Markdown limpio, lo que reducirá el gasto de tokens y permitirá al agente hacer un resumen preciso.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button">
+        <span>Ejercicio 2 · Redacción de un correo para clientes</span>
+        <span class="arw">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <p><b>Tarea:</b> redactaste un correo con Hermes pero suena demasiado frío, formal y robótico.</p>
+          <p style="margin-top:10px"><b>Solución explicada:</b> pásale el borrador a Hermes solicitando la habilidad <b>Humanizer</b>. Esta habilidad eliminará las frases cliché de la IA y reestructurará el mensaje para que se lea cercano y natural.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <button class="acc-btn" type="button">
+        <span>Ejercicio 3 · Desarrollo de una pequeña aplicación web</span>
+        <span class="arw">▼</span>
+      </button>
+      <div class="acc-body">
+        <div class="acc-inner">
+          <p><b>Tarea:</b> quieres crear una aplicación sin que falle el código ni luzca desordenada.</p>
+          <p style="margin-top:10px"><b>Solución explicada:</b> combina <b>Addy Osmani's Agent Skills</b> para planificar y programar paso a paso, <b>Anthropic Cybersecurity</b> para revisar fallos de seguridad y <b>Make Interfaces Feel Better</b> para pulir el diseño visual.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>6. Glosario de términos técnicos</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Término</th><th>Definición</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Agente de IA</b></td><td>Programa inteligente capaz de tomar decisiones y realizar acciones para cumplir un objetivo.</td></tr>
+          <tr><td><b>Tokens</b></td><td>Fragmentos de palabras que la IA lee y genera; a mayor número de tokens, mayor costo y consumo de memoria.</td></tr>
+          <tr><td><b>Markdown</b></td><td>Formato de texto plano muy sencillo que utiliza símbolos (como asteriscos o numerales) para dar estilo básico al texto.</td></tr>
+          <tr><td><b>UI/UX (Interfaz y Experiencia de Usuario)</b></td><td>El aspecto visual de una aplicación y lo fácil o agradable que resulta utilizarla para una persona.</td></tr>
+          <tr><td><b>Repositorio / Codebase</b></td><td>El conjunto de archivos y carpetas que contienen todo el código fuente de un programa.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================= FUENTES ============================= -->
+  <section id="fuentes" class="section">
+    <div class="sec-head">
+      <span class="kicker">Referencias</span>
+      <h2>Fuentes y Recursos</h2>
+      <p>Material de origen utilizado para la elaboración de este tutorial.</p>
+    </div>
+
+    <div class="card card-accent p">
+      <h4 style="margin-top:0">🎬 Nombre del Video de YouTube</h4>
+      <p style="font-size:1.05rem;color:#f1f5f9;font-weight:600;margin-bottom:14px">
+        10 Hermes Agent Skills You Need to Install Today (Steal These)
+      </p>
+      <h4>🔗 Enlace URL del Video de YouTube</h4>
+      <p style="word-break:break-all">
+        <a href="https://youtube.com/watch?v=D3hGfq-LzBU&amp;is=u5BfwxSf-WhVRjLb"
+           target="_blank" rel="noopener noreferrer"
+           style="color:var(--cyan);text-decoration:none;border-bottom:1px dashed var(--cyan)">
+          https://youtube.com/watch?v=D3hGfq-LzBU&amp;is=u5BfwxSf-WhVRjLb
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================= CRÉDITOS ============================= -->
+  <section id="creditos" class="section">
+    <div class="sec-head">
+      <span class="kicker">Reconocimientos</span>
+      <h2>Créditos</h2>
+      <p>Información de autoría, fecha y propósito educativo de este tutorial.</p>
+    </div>
+
+    <div class="hero-svg-wrap">
+      <svg class="hero-svg" viewBox="0 0 800 450" role="img"
+           aria-label="La misma animación de portada: diez habilidades fluyen hacia el núcleo del agente Hermes y salen transformadas en entregables profesionales">
+        <use href="#hermesHero" xlink:href="#hermesHero"></use>
+      </svg>
+    </div>
+
+    <div class="credits-card">
+      <span class="badge-top">Tutorial Educativo</span>
+      <h3 style="justify-content:center;color:#f1f5f9;font-size:1.15rem;margin:0">
+        Dominio de Hermes: 10 Habilidades para Agentes de IA
+      </h3>
+      <div class="cname">Rubén Sbarsky</div>
+      <div class="crole">Autor · Créditos</div>
+
+      <div class="cdate">
+        <span class="date-chip">📅 FECHA: <b>16/09/2026</b></span>
+        <span class="date-chip">🕐 HORA: <b>11:25:16</b></span>
+      </div>
+
+      <div class="callout info" style="margin-top:22px;text-align:left">
+        <span class="ct">Indicación educativa</span>
+        Este tutorial ha sido elaborado exclusivamente con fines educativos y de divulgación.
+        Su objetivo es facilitar la comprensión de los archivos de habilidad (<i>skill files</i>)
+        y su aplicación práctica en agentes de IA como Hermes.
+      </div>
+
+      <div class="latin">Fiat iustitia, ruat caelum.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ BOTÓN VOLVER ARRIBA ============ -->
+<button id="backTop" type="button" aria-label="Volver arriba">↑</button>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div>📚 Tutorial solo con fines Educativos y Divulgación</div>
+  <div>👨‍💻 Créditos: Rubén Sbarsky</div>
+  <div>📅 FECHA: 16/09/2026</div>
+  <div>Hora: 11:25:16</div>
+  <div class="flatin">Fiat iustitia, ruat caelum.</div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ================= SPA: NAVEGACIÓN ================= */
+  var navBtns  = Array.prototype.slice.call(document.querySelectorAll('.nav-btn'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+  var navScroll = document.getElementById('navScroll');
+  var progressFill = document.getElementById('progressFill');
+  var backTop = document.getElementById('backTop');
+
+  function showSection(id){
+    var found = false;
+    sections.forEach(function(s){
+      var on = (s.id === id);
+      s.classList.toggle('active', on);
+      if(on) found = true;
+    });
+    if(!found){ return; }
+    navBtns.forEach(function(b){
+      b.classList.toggle('active', b.dataset.target === id);
+    });
+    window.scrollTo(0, 0);
+    updateProgress();
+  }
+
+  navBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      showSection(btn.dataset.target);
+      try{
+        btn.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+      }catch(e){
+        btn.scrollIntoView(false);
+      }
+    });
+  });
+
+  /* ================= BARRA DE PROGRESO ================= */
+  function updateProgress(){
+    var doc = document.documentElement;
+    var total = doc.scrollHeight - window.innerHeight;
+    var pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+    if(pct < 0) pct = 0;
+    if(pct > 100) pct = 100;
+    if(progressFill) progressFill.style.width = pct + '%';
+
+    if(backTop){
+      if(window.scrollY > 300){ backTop.classList.add('show'); }
+      else { backTop.classList.remove('show'); }
+    }
+  }
+
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  window.addEventListener('resize', updateProgress);
+  window.addEventListener('orientationchange', function(){ setTimeout(updateProgress, 220); });
+
+  /* ================= VOLVER ARRIBA ================= */
+  if(backTop){
+    backTop.addEventListener('click', function(){
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
+
+  /* ================= ACORDEONES ================= */
+  Array.prototype.slice.call(document.querySelectorAll('.acc-btn')).forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var acc = btn.parentElement;
+      acc.classList.toggle('open');
+    });
+  });
+
+  /* ================= COPIAR PROMPTS ================= */
+  function fallbackCopy(text, done){
+    try{
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    }catch(e){ /* silencioso */ }
+  }
+
+  Array.prototype.slice.call(document.querySelectorAll('.copy-btn')).forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var card = btn.closest('.prompt-card');
+      if(!card) return;
+      var node = card.querySelector('.prompt-text');
+      if(!node) return;
+      var text = node.innerText || node.textContent || '';
+      var original = btn.textContent;
+      function done(){
+        btn.textContent = '✓ COPIADO';
+        setTimeout(function(){ btn.textContent = original; }, 1500);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(function(){ fallbackCopy(text, done); });
+      }else{
+        fallbackCopy(text, done);
+      }
+    });
+  });
+
+  /* ================= ESTADO INICIAL ================= */
+  updateProgress();
+
+})();
+</script>
+</body>
+</html>
